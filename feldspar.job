@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -l walltime=999:00:00
+#PBS -l nodes=1:ppn=1
+#PBS -j oe
+##PBS -M hanyugao2017@northwestern.edu
+##PBS -q batch
+#PBS -V
+cd $PBS_O_WORKDIR
+./a.out >res6
+
+
+ 
