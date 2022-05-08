@@ -264,7 +264,7 @@ void ode(stiff_system,stiff_system_jacobi,vector_type &r,double end_t)
 {
 
 
-    std::string out_dir = "/Users/yueyue/Desktop/effPropaRecorder/effPropaRecorder/output/";
+    std::string out_dir = "/Users/yueyue/Desktop/effPropaRecorder0330/src/";
 
     //double start_t=0.0;
 
@@ -276,7 +276,7 @@ void ode(stiff_system,stiff_system_jacobi,vector_type &r,double end_t)
    ofstream t1(out_dir+"ode_data.out");
    size_t num_of_steps = integrate_const( make_dense_output< rosenbrock4< double > >( 1.0e-6 , 1.0e-6 ) ,
                                            make_pair( stiff_system() , stiff_system_jacobi() ) ,
-                                           x , 0.0 , end_t , 10.0 ,
+                                           x , 0.0 , end_t , 4.0 ,
                                           t1 << phoenix::arg_names::arg2 << " "  << phoenix::arg_names::arg1[0] << " "<< phoenix::arg_names::arg1[1]<< " " << phoenix::arg_names::arg1[2] << " " << phoenix::arg_names::arg1[3] << " " << phoenix::arg_names::arg1[4] << " " << phoenix::arg_names::arg1[5] << " " << phoenix::arg_names::arg1[6] << " " << phoenix::arg_names::arg1[7] << " " << phoenix::arg_names::arg1[8] << " " << phoenix::arg_names::arg1[9]  << " " << phoenix::arg_names::arg1[10] <<"\n" );
 
     r=x;

@@ -21,7 +21,7 @@ struct poly_chain {
   vector<int> chain1, chain2;
   vector<int> num_M1, num_M2;
 //	vector<int> AA,AB,BA,BB;
-} poly;
+}poly;
 
 std::vector<int> M1M1;
 std::vector<int> M1M2;
@@ -31,6 +31,7 @@ std::vector<int> M2M2;
 typedef vector<chain> chain_pool;
 chain_pool allchains;          //completed segments and dead chains
 chain new_chain;
+
 int r1, r2, rmax;                       //random numbers for chain selection
 
 vector<int>::iterator p_chain;
@@ -81,7 +82,7 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       species[4] -= 1;
       species[6] += 1;
       num_monomer[0] += 1;
-      num_chain = num_chain + 1;
+      num_chain = num_chain + 1; //new chain +1
       allchains.push_back(new_chain);
       allchains[allchains.size() - 1].M1.push_back(2);            //add 2 M1's
       allchains[allchains.size() - 1].dyad[0] = 1;                //add 1 AA
@@ -93,6 +94,7 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       }
       M1M1.push_back(num_chain);                                //Type 1 Chain
       break;
+
     case 54 :                  //IM1*+M2=IM1M2*
       species[3] -= 1;
       species[4] -= 1;
@@ -112,6 +114,7 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       }
       M1M2.push_back(num_chain);                                //Type2 Chain
       break;
+
     case 55 :              //IM2*+M1---->IM2M1*
       species[2] -= 1;
       species[5] -= 1;
@@ -119,7 +122,6 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       num_monomer[0] += 1;
       num_chain = num_chain + 1;
       allchains.push_back(new_chain);
-
       allchains[allchains.size() - 1].M1.push_back(1);            //add 1 M1
       allchains[allchains.size() - 1].M2.push_back(1);            //add 1 M2
       allchains[allchains.size() - 1].dyad[0] = 0;                //add 1 AA
@@ -139,7 +141,6 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       num_monomer[1] += 1;
       num_chain = num_chain + 1;
       allchains.push_back(new_chain);
-
       allchains[allchains.size() - 1].M2.push_back(2);            //add 2 M2
       allchains[allchains.size() - 1].dyad[0] = 0;                //add 1 AA
       allchains[allchains.size() - 1].dyad[1] = 0;
@@ -150,6 +151,7 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       }
       M2M2.push_back(num_chain);                                //Type4 Chain
       break;
+
       /****************Propagation with Penultimate effect*************/
     case 0 :                        //IM1M1*+M1=IM1M1*
       species[2] -= 1;
@@ -158,10 +160,11 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       num_monomer[0] += 1;
       r1 = my_rand(M1M1.size());
       c_tab1 = M1M1[r1];
-      allchains[c_tab1].M1.back()++;
+      allchains[c_tab1].M1.back()++;                  //number of M1++
       allchains[c_tab1].dyad[0]++;                    //+AA
       allchains[c_tab1].triad[0]++;                    // (AAA),AAB,ABA,ABB,BAA,BAB,BBA,BBB
       break;
+
     case 1 :                          //IM1M2*+M1=IM2M1*
       species[2] -= 1;
       species[7] -= 1;
@@ -169,9 +172,10 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       num_monomer[0] += 1;
       r1 = my_rand(M1M2.size());
       c_tab1 = M1M2[r1];
-      allchains[c_tab1].M1.push_back(1);
+      allchains[c_tab1].M1.push_back(1);              //??
       allchains[c_tab1].dyad[2]++;                    //+BA
-      allchains[c_tab1].triad[2]++;                    // AAA,AAB,(ABA),ABB,BAA,BAB,BBA,BBB
+      allchains[c_tab1].triad[2]++;                   // AAA,AAB,(ABA),ABB,BAA,BAB,BBA,BBB
+
       M2M1.push_back(c_tab1);
       p_chain = M1M2.begin() + r1;
       M1M2.erase(p_chain);
@@ -299,7 +303,7 @@ void efficient_explicit_sequence_record_number(int reaction_index,
         r1 = rmax;
       }
 
-      p_chain = M1M1.begin() + r1;
+      p_chain = M1M1.begin() + r1; //erase max first
       M1M1.erase(p_chain);
       p_chain = M1M1.begin() + r2;
       M1M1.erase(p_chain);
@@ -438,7 +442,6 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       for (int w = 0; w < allchains[c_tab2].M2.size(); w++) { M2_counter += allchains[c_tab2].M2[w]; };
       poly.num_M1.push_back(M1_counter);
       poly.num_M2.push_back(M2_counter);
-
       break;
 
     case 12 :                          //IM1M2*+IM1M2*=POLY
@@ -742,8 +745,8 @@ void efficient_explicit_sequence_record_number(int reaction_index,
       for (int i = 0; i < 8; i++) { allchains[allchains.size() - 1].triad[i] = 0; }
       allchains[allchains.size() - 1].M1.push_back(1);
       allchains[allchains.size() - 1].M2.push_back(1);
-//	 allchains[allchains.size()-1].dyad[1]++;
-//	 tot_dyad[1]++;
+	 allchains[allchains.size()-1].dyad[1]++;
+	 tot_dyad[1]++;
       poly.chain1.push_back(num_chain);
       poly.chain2.push_back(-1);
       poly.num_M1.push_back(1);
